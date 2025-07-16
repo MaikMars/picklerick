@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <Group
-      location = "group:New Group"
-      name = "New Group">
-      <FileRef
-         location = "group:MockURLProtocol.swift">
-      </FileRef>
-      <FileRef
-         location = "group:RnMCharacterServiceTests.swift">
-      </FileRef>
-   </Group>
    <FileRef
       location = "self:">
    </FileRef>
