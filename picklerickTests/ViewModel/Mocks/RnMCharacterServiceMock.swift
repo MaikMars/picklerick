@@ -8,12 +8,16 @@
 import Foundation
 @testable import picklerick
 
-class RnMCharacterServiceMock: RnMCharacterService {
-    var fetchAllCharactersCalled = false
-    var fetchAllCharactersResponse: [picklerick.Character] = []
-    
-    func fetchAllCharacters(page: Int) async throws -> [picklerick.Character] {
-        fetchAllCharactersCalled = true
-        return fetchAllCharactersResponse
+class RnMCharacterServiceMock : RnMCharacterService {
+    var fetchCharactersCalled = false
+    var fetchCharactersResponse: [picklerick.Character] = []
+ 
+    func fetchCharacters(page: Int, query: String?, filters: [String: String]) async throws -> [Character] {
+        fetchCharactersCalled = true
+        return fetchCharactersResponse
     }
 }
+
+
+
+

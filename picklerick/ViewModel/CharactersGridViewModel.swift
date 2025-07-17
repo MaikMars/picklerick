@@ -4,78 +4,96 @@
 //
 //  Created by Miki on 15/7/25.
 //
-
 import Foundation
+import Combine
 
-
+@MainActor
 protocol CharactersGridViewModel: ObservableObject {
     func loadFirstCharactersPage() async throws
     func loadMoreIfNeeded(after character: Character) async
 }
 
 class CharactersGridViewModelImpl: CharactersGridViewModel {
-
     
     private let characterService: RnMCharacterService
     private var currentPage = 1
     private var hasMorePages = true
-    @Published var isLoading = false
-    @Published var characters: [Character]
+    private var cancellables = Set<AnyCancellable>()
     
+    @Published private(set) var isLoading = false
+    @Published var characters: [Character] = []
+    @Published var errorMessage: String? = nil
+    @Published var query: String = ""
+    
+    @Published var searchType: String = "name" {
+        didSet { Task {  await loadFirstCharactersPage() } }
+    }
+    @Published var appliedFilters: [String: String] = [:] {
+        didSet { Task {  await loadFirstCharactersPage() } }
+    }
+        
     init(
         characterService: RnMCharacterService = RnMCharacterServiceImpl(),
         isLoading: Bool = false,
-        characters: [Character] = [])
-    {
+        characters: [Character] = []
+    ) {
         self.characterService = characterService
         self.isLoading = isLoading
         self.characters = characters
+        observeQueryChanges()
     }
+    
     
     func loadFirstCharactersPage() async {
         resetState()
-        do {
-            try await loadCharacters()
-        } catch {
-            
-        }
+        await loadCharacters()
     }
     
     func loadMoreIfNeeded(after character: Character) async {
-        guard let lastCharacter = characters.last else { return }
-        if character.id == lastCharacter.id {
-            do {
-                try await loadCharacters()
-            } catch {
-                //
-            }
-        }
+        guard let lastCharacter = characters.last, lastCharacter.id == character.id else { return }
+        await loadCharacters()
     }
     
     internal func resetState() {
         currentPage = 1
         hasMorePages = true
         characters = []
+        errorMessage = nil
     }
     
-    internal func loadCharacters() async throws {
-           guard !isLoading, hasMorePages else { return }
-           isLoading = true
-           defer { isLoading = false }
-           
-           do {
-               let newCharacters = try await characterService.fetchAllCharacters(page: currentPage)
-               if newCharacters.isEmpty {
-                   hasMorePages = false
-               } else {
-                   characters += newCharacters
-                   currentPage += 1
-               }
-           } catch {
-               // handlear errores
-               hasMorePages = false
-           }
-       }
+    private func observeQueryChanges() {
+            $query
+                .removeDuplicates()
+                .debounce(for: .milliseconds(400), scheduler: DispatchQueue.main)
+                .sink { [weak self] value in
+                    Task {
+                        await self?.loadFirstCharactersPage()
+                    }
+                }
+                .store(in: &cancellables)
+        }
+    
+    internal func loadCharacters() async {
+        guard !isLoading, hasMorePages else { return }
+        
+        isLoading = true
+        defer { isLoading = false }
+        
+        do {
+            let newCharacters = try await characterService.fetchCharacters(
+                page: currentPage,
+                query: query,
+                filters: appliedFilters
+            )
+            if newCharacters.isEmpty {
+                hasMorePages = false
+            } else {
+                characters += newCharacters
+                currentPage += 1
+            }
+        } catch {
+            errorMessage = "Error cargando personajes: \(error.localizedDescription)"
+            hasMorePages = false
+        }
+    }
 }
-
-

@@ -16,24 +16,23 @@ final class CharactersGridViewModelTests: XCTestCase {
 
     override func setUp() {
         service = RnMCharacterServiceMock()
-        service.fetchAllCharactersResponse = [
+        service.fetchCharactersResponse = [
             Character(id: 1, name: "Rick Sanchez", status: "Alive", species: "Human", gender: "Male", imageURL: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")
         ]
         viewModel = CharactersGridViewModelImpl(characterService: service)
-        
     }
     
-    func testLoadCharacters_callsService() async throws {
+    func testLoadCharacters_callsService() async {
         //When
-        try await viewModel.loadCharacters()
+        await viewModel.loadCharacters()
         
         //Then
-        XCTAssertTrue(service.fetchAllCharactersCalled)
+        XCTAssertTrue(service.fetchCharactersCalled)
     }
 
-    func testLoadCharacters_responseSuccess() async throws {
+    func testLoadCharacters_responseSuccess() async {
         //When
-        try await viewModel.loadCharacters()
+        await viewModel.loadCharacters()
         
         //Then
         let character = viewModel.characters.first!
@@ -42,9 +41,9 @@ final class CharactersGridViewModelTests: XCTestCase {
         XCTAssertEqual(character.name, "Rick Sanchez")
     }
     
-    func testLoadCharacters_setsIsLoadingToFalse_onSuccess() async throws {
+    func testLoadCharacters_setsIsLoadingToFalse_onSuccess() async {
         //When
-        try await viewModel.loadCharacters()
+        await viewModel.loadCharacters()
         
         //Then
         XCTAssertFalse(viewModel.isLoading)

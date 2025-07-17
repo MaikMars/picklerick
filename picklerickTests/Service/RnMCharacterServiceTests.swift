@@ -29,55 +29,20 @@ final class RnMCharacterServiceTests: XCTestCase {
         super.tearDown()
     }
 
-    func testFetchAllCharacters_Success() async throws {
+    func testFetchCharacters_Success() async throws {
         // Given
-        let mockJSON = """
-            {
-              "info": {
-                "count": 826,
-                "pages": 42,
-                "next": "https://rickandmortyapi.com/api/character/?page=1",
-                "prev": null
-              },
-              "results": [
-                {
-                  "id": 1,
-                  "name": "Rick Sanchez",
-                  "status": "Alive",
-                  "species": "Human",
-                  "type": "",
-                  "gender": "Male",
-                  "origin": {
-                    "name": "Earth",
-                    "url": "https://rickandmortyapi.com/api/location/1"
-                  },
-                  "location": {
-                    "name": "Earth",
-                    "url": "https://rickandmortyapi.com/api/location/20"
-                  },
-                  "image": "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-                  "episode": [
-                    "https://rickandmortyapi.com/api/episode/1",
-                    "https://rickandmortyapi.com/api/episode/2"
-                  ],
-                  "url": "https://rickandmortyapi.com/api/character/1",
-                  "created": "2017-11-04T18:48:46.250Z"
-                }
-              ]
-            }
-            """.data(using: .utf8)!
-
+        let mockJSON = CharacterServiceMocks.mockJSONPage1
         MockURLProtocol.mockResponseData = mockJSON
 
         //When
-        let characters = try await service.fetchAllCharacters(page: 1)
+        let characters = try await service.fetchCharacters(page: 1)
 
         //Then
         XCTAssertEqual(characters.count, 1)
         XCTAssertEqual(characters.first?.name, "Rick Sanchez")
     }
     
-    func testFetchAllCharacters_throwsDecodeError() async throws {
+    func testFetchCharacters_throwsDecodeError() async throws {
         // Given - intentionally invalid JSON (count should be Int)
         let mockJSON = """
             {
@@ -95,7 +60,7 @@ final class RnMCharacterServiceTests: XCTestCase {
 
         // When
         do {
-            _ = try await service.fetchAllCharacters(page: 1)
+            _ = try await service.fetchCharacters(page: 1)
             XCTFail("Expected Error")
         } catch let error as CharacterServiceError {
             // Then
@@ -105,13 +70,13 @@ final class RnMCharacterServiceTests: XCTestCase {
         }
     }
     
-    func testFetchAllCharacters_throwsNetworkError() async throws {
+    func testFetchCharacters_throwsNetworkError() async throws {
         // Given
         MockURLProtocol.mockError = URLError(.badServerResponse)
 
         // When
         do {
-            _ = try await service.fetchAllCharacters(page: 1)
+            _ = try await service.fetchCharacters(page: 1)
             XCTFail("Expected Error")
         } catch let error as CharacterServiceError {
             // Then
@@ -121,12 +86,41 @@ final class RnMCharacterServiceTests: XCTestCase {
         }
     }
     
-    func testUrlGeneration_Success() throws {
+    func testFetchCharacters_usesCacheAfterFirstCall() async throws {
+        // Given
+        MockURLProtocol.mockResponseData = CharacterServiceMocks.mockJSONPage1
+        
+        // When
+        let firstCall = try await service.fetchCharacters(page: 1)
+        MockURLProtocol.mockResponseData = nil
+        let secondCall = try await service.fetchCharacters(page: 1)
+        
+        // Then
+        XCTAssertEqual(firstCall.count, secondCall.count)
+    }
+    
+    func testFetchCharacters_differentPage_noCacheHit() async throws {
+        let mockJSONPage1  = CharacterServiceMocks.mockJSONPage1
+        MockURLProtocol.mockResponseData = mockJSONPage1
+        _ = try await service.fetchCharacters(page: 1)
+    
+        MockURLProtocol.mockResponseData = CharacterServiceMocks.mockJSONPage2
+        let resultPage2 = try await service.fetchCharacters(page: 2)
+        
+        XCTAssertFalse(resultPage2.isEmpty, "Expected to fetch new data for a different page")
+    }
+    
+    func testUrlGeneration_withoutQueryAndFilters_Success() throws {
         //When
-        let url = try service.url(for: 1)
+        let url = try service.url(for: 1, query: nil, filters: [:])
         
         //Then
         XCTAssertEqual(url.absoluteString, "https://rickandmortyapi.com/api/character?page=1")
+    }
+    
+    func testUrlGeneration_withQueryAndFilters_Success() throws {
+        let url = try service.url(for: 1, query: "rick", filters: ["status": "alive", "species": "human"])
+        XCTAssertEqual(url.absoluteString, "https://rickandmortyapi.com/api/character?page=1&name=rick&species=human&status=alive")
     }
     
     func testUrlGeneration_throwsInvalidURL() {
@@ -138,7 +132,7 @@ final class RnMCharacterServiceTests: XCTestCase {
         
         //When
         do {
-            _ =  try service.url(for: 1)
+            _ = try service.url(for: 1, query: nil, filters: [:])
             XCTFail("Expected Error")
         } catch let error as CharacterServiceError {
             // Then
