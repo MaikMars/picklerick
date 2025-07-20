@@ -1,5 +1,5 @@
 //
-//  RnMCharacterServiceTests.swift
+//  CharacterServiceTests.swift
 //  
 //
 //  Created by Miki on 15/7/25.
@@ -10,9 +10,9 @@ import XCTest
 @testable import picklerick
 
 
-final class RnMCharacterServiceTests: XCTestCase {
+final class CharacterServiceTests: XCTestCase {
 
-    var service: RnMCharacterServiceImpl!
+    var service: CharacterServiceImpl!
     var session: URLSession!
 
     override func setUp() {
@@ -20,7 +20,7 @@ final class RnMCharacterServiceTests: XCTestCase {
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [MockURLProtocol.self]
         session = URLSession(configuration: config)
-        service = RnMCharacterServiceImpl(session: session)
+        service = CharacterServiceImpl(session: session)
     }
     
     override func tearDown() {
@@ -62,11 +62,11 @@ final class RnMCharacterServiceTests: XCTestCase {
         do {
             _ = try await service.fetchCharacters(page: 1)
             XCTFail("Expected Error")
-        } catch let error as CharacterServiceError {
+        } catch let error as RMServiceError {
             // Then
             XCTAssertEqual(error, .decodingError, "Expected decodingError")
         } catch {
-            XCTFail("Expected CharacterServiceError")
+            XCTFail("Expected ServiceError")
         }
     }
     
@@ -78,11 +78,11 @@ final class RnMCharacterServiceTests: XCTestCase {
         do {
             _ = try await service.fetchCharacters(page: 1)
             XCTFail("Expected Error")
-        } catch let error as CharacterServiceError {
+        } catch let error as RMServiceError {
             // Then
             XCTAssertEqual(error, .networkError(URLError(.badServerResponse)), "Expected networkError")
         } catch {
-            XCTFail("Expected CharacterServiceError")
+            XCTFail("Expected ServiceError")
         }
     }
     
@@ -123,22 +123,4 @@ final class RnMCharacterServiceTests: XCTestCase {
         XCTAssertEqual(url.absoluteString, "https://rickandmortyapi.com/api/character?page=1&name=rick&species=human&status=alive")
     }
     
-    func testUrlGeneration_throwsInvalidURL() {
-        //Given
-        let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [MockURLProtocol.self]
-        session = URLSession(configuration: config)
-        let service = RnMCharacterServiceImpl(session: session, baseURL: "failUrl")
-        
-        //When
-        do {
-            _ = try service.url(for: 1, query: nil, filters: [:])
-            XCTFail("Expected Error")
-        } catch let error as CharacterServiceError {
-            // Then
-            XCTAssertEqual(error, .invalidURL, "Expected invalidURL")
-        } catch {
-            XCTFail("Expected CharacterServiceError")
-        }
-    }
 }

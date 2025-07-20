@@ -22,11 +22,14 @@ struct CharactersGridView: View {
     
     var body: some View {
         ZStack {
-            NavigationView {
+            NavigationStack {
                 VStack {
                     HStack {
-                        TextField("Search character by \(viewModel.searchType)", text: $viewModel.query)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        TextField(
+                            "Search character by \(viewModel.searchType)",
+                            text: $viewModel.query
+                        )
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
                         Button {
                             withAnimation {
                                 showFilters.toggle()
@@ -40,30 +43,54 @@ struct CharactersGridView: View {
                     
                     ScrollView(.vertical) {
                         LazyVGrid(columns: columns, spacing: 12) {
-                            ForEach(viewModel.characters, id: \.id) { character in
-                                VStack(spacing: 8) {
-                                    AsyncImage(url: URL(string: character.imageURL)) { phase in
-                                        if let image = phase.image {
-                                            image
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                                .frame(width: 160, height: 160)
-                                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                        } else {
-                                            ProgressView()
-                                                .frame(width: 160, height: 160)
+                            ForEach(
+                                viewModel.characters,
+                                id: \.id
+                            ) { character in
+                                NavigationLink(value: character) {
+                                    VStack(spacing: 8) {
+                                        AsyncImage(
+                                            url: URL(string: character.imageURL)
+                                        ) { phase in
+                                            if let image = phase.image {
+                                                image
+                                                    .resizable()
+                                                    .aspectRatio(
+                                                        contentMode: .fill
+                                                    )
+                                                    .frame(
+                                                        width: 160,
+                                                        height: 160
+                                                    )
+                                                    .clipShape(
+                                                        RoundedRectangle(
+                                                            cornerRadius: 12
+                                                        )
+                                                    )
+                                            } else {
+                                                ProgressView()
+                                                    .frame(
+                                                        width: 160,
+                                                        height: 160
+                                                    )
+                                            }
+                                        }
+                                        Text(character.name)
+                                            .font(.headline)
+                                            .lineLimit(1)
+                                            .padding(.horizontal)
+                                    }
+                                    
+                                    .onAppear {
+                                        Task {
+                                            await viewModel
+                                                .loadMoreIfNeeded(
+                                                    after: character
+                                                )
                                         }
                                     }
-                                    Text(character.name)
-                                        .font(.headline)
-                                        .lineLimit(1)
-                                        .padding(.horizontal)
                                 }
-                                .onAppear {
-                                    Task {
-                                        await viewModel.loadMoreIfNeeded(after: character)
-                                    }
-                                }
+                                .buttonStyle(.plain)
                             }
                             
                             if viewModel.isLoading {
@@ -74,6 +101,9 @@ struct CharactersGridView: View {
                         }
                         .padding(.horizontal)
                     }
+                }
+                .navigationDestination(for: Character.self) { character in
+                    CharacterDetailsView(character: character)
                 }
                 .navigationTitle("Characters")
                 .task {
@@ -92,16 +122,15 @@ struct CharactersGridView: View {
                         showFilters = false
                     }
                 }, isPresented: $showFilters, seachType: $viewModel.searchType, filters: $viewModel.appliedFilters)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(.regularMaterial)
-                    .cornerRadius(16)
-                    .shadow(radius: 10)
-                    .padding(.horizontal, 20)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(.regularMaterial)
+                .cornerRadius(16)
+                .shadow(radius: 10)
+                .padding(.horizontal, 20)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
-        
     }
 }
 

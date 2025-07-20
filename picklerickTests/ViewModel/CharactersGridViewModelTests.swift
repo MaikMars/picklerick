@@ -11,13 +11,13 @@ import XCTest
 @MainActor
 final class CharactersGridViewModelTests: XCTestCase {
     
-    var service: RnMCharacterServiceMock!
+    var service: CharacterServiceMock!
     var viewModel: CharactersGridViewModelImpl!
 
     override func setUp() {
-        service = RnMCharacterServiceMock()
+        service = CharacterServiceMock()
         service.fetchCharactersResponse = [
-            Character(id: 1, name: "Rick Sanchez", status: "Alive", species: "Human", gender: "Male", imageURL: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")
+            Character(id: 1, name: "Rick Sanchez", status: "Alive", species: "Human", type: nil, gender: "Male", imageURL: "https://rickandmortyapi.com/api/character/avatar/1.jpeg", originName: "Earth", episodes: [1,2])
         ]
         viewModel = CharactersGridViewModelImpl(characterService: service)
     }
@@ -51,7 +51,7 @@ final class CharactersGridViewModelTests: XCTestCase {
     
     func testResetState_setsCharactersToEmpty() {
         //Given
-        viewModel.characters = [.init(id: 1, name: "Rick Sanchez", status: "Alive", species: "Human", gender: "Male", imageURL: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")]
+        viewModel.characters = [.init(id: 1, name: "Rick Sanchez", status: "Alive", species: "Human", type: nil, gender: "Male", imageURL: "https://rickandmortyapi.com/api/character/avatar/1.jpeg", originName: "Earth", episodes: [1,2])]
         
         //When
         viewModel.resetState()

@@ -1,5 +1,5 @@
 //
-//  RnMCharacterServiceMock.swift
+//  CharacterServiceMock.swift
 //  picklerickTests
 //
 //  Created by Miki on 16/7/25.
@@ -8,7 +8,7 @@
 import Foundation
 @testable import picklerick
 
-class RnMCharacterServiceMock : RnMCharacterService {
+class CharacterServiceMock : CharacterService {
     var fetchCharactersCalled = false
     var fetchCharactersResponse: [picklerick.Character] = []
  

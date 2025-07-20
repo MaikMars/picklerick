@@ -15,7 +15,7 @@ protocol CharactersGridViewModel: ObservableObject {
 
 class CharactersGridViewModelImpl: CharactersGridViewModel {
     
-    private let characterService: RnMCharacterService
+    private let characterService: CharacterService
     private var currentPage = 1
     private var hasMorePages = true
     private var cancellables = Set<AnyCancellable>()
@@ -33,7 +33,7 @@ class CharactersGridViewModelImpl: CharactersGridViewModel {
     }
         
     init(
-        characterService: RnMCharacterService = RnMCharacterServiceImpl(),
+        characterService: CharacterService = CharacterServiceImpl(),
         isLoading: Bool = false,
         characters: [Character] = []
     ) {
