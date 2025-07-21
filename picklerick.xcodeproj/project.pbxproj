@@ -30,14 +30,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		21CF66A62E2D99F900836B78 /* Exceptions for "picklerickUITests" folder in "picklerick" target */ = {
+		21CF68D62E2E8ABD00836B78 /* Exceptions for "picklerickUITests" folder in "picklerick" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CharactersGridViewUITests.swift,
 			);
 			target = 21FC28562E26A29100444881 /* picklerick */;
 		};
-		21CF66A72E2D99F900836B78 /* Exceptions for "picklerickUITests" folder in "picklerickUITests" target */ = {
+		21CF68D72E2E8ABD00836B78 /* Exceptions for "picklerickUITests" folder in "picklerickUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CharactersGridViewUITests.swift,
@@ -50,8 +50,8 @@
 		21CF66A32E2D99F900836B78 /* picklerickUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				21CF66A62E2D99F900836B78 /* Exceptions for "picklerickUITests" folder in "picklerick" target */,
-				21CF66A72E2D99F900836B78 /* Exceptions for "picklerickUITests" folder in "picklerickUITests" target */,
+				21CF68D62E2E8ABD00836B78 /* Exceptions for "picklerickUITests" folder in "picklerick" target */,
+				21CF68D72E2E8ABD00836B78 /* Exceptions for "picklerickUITests" folder in "picklerickUITests" target */,
 			);
 			path = picklerickUITests;
 			sourceTree = "<group>";
