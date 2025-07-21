@@ -28,7 +28,6 @@ struct CharacterDetailsView: View {
                 episodesSection
             }
             .padding()
-            .navigationTitle("Details")
         }
         .task {
             await viewModel.loadEpisodes()
@@ -64,22 +63,37 @@ struct CharacterDetailsView: View {
                 .padding(.horizontal)
                 .padding(.bottom, 16)
 
-            InfoRowView(label: "Status", value: character.status)
-            InfoRowView(label: "Species", value: character.species)
-            InfoRowView(label: "Gender", value: character.gender)
+            InfoRowView(
+                label: String(localized: "status_title"),
+                value: character.status
+            )
+            InfoRowView(
+                label: String(localized: "species_title"),
+                value: character.species
+            )
+            InfoRowView(
+                label: String(localized: "gender_title"),
+                value: character.gender
+            )
 
             if let type = character.type, !type.isEmpty {
-                InfoRowView(label: "Type", value: type)
+                InfoRowView(
+                    label: String(localized: "type_title"),
+                    value: type
+                )
             }
 
-            InfoRowView(label: "Origin", value: character.originName)
+            InfoRowView(
+                label: String(localized: "origin_title"),
+                value: character.originName
+            )
         }
         .padding(.horizontal)
     }
 
     private var episodesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Episodes:")
+            Text(String(localized: "episodes_title"))
                 .font(.headline)
                 .padding(.horizontal)
 
@@ -102,29 +116,28 @@ struct CharacterDetailsView: View {
                             }
                         ),
                         content: {
-                        VStack() {
-                                
-                        
-                            ForEach(section.episodes, id: \.id) { episode in
-                                HStack() {
-                                    Text(
-                                        "#\(String(episode.episodeNumber)) \(episode.name)"
-                                    ).font(.callout)
-                                        .fontWeight(.thin)
-                                    .padding(.horizontal)
-                                    Spacer()
-                                }.padding(.vertical, 6)
-                            }
-                        }.background(
-                            RoundedRectangle(cornerRadius: 6)
-                                .fill(Color(.secondarySystemBackground))
-                        )
-                    
+                            VStack() {
+                                ForEach(section.episodes, id: \.id) { episode in
+                                    HStack() {
+                                        Text(
+                                            "#\(String(localized: "season_title")) \(episode.name)"
+                                        ).font(.callout)
+                                            .fontWeight(.thin)
+                                            .padding(.horizontal)
+                                        Spacer()
+                                    }.padding(.vertical, 6)
+                                }
+                            }.background(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .fill(Color(.secondarySystemBackground))
+                            )
                         },
                         label: {
-                            Text("Season \(section.season)")
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
+                            Text(
+                                "\(String(localized: "season_title")) \(section.season)"
+                            )
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
                         }
                     )
                     .padding(.horizontal)

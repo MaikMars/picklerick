@@ -26,7 +26,7 @@ struct CharactersGridView: View {
                 VStack {
                     HStack {
                         TextField(
-                            "Search character by \(viewModel.searchType)",
+                            "\( String(localized: "search_placeholder")) \(viewModel.searchType)",
                             text: $viewModel.query
                         )
                         .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -105,7 +105,7 @@ struct CharactersGridView: View {
                 .navigationDestination(for: Character.self) { character in
                     CharacterDetailsView(character: character)
                 }
-                .navigationTitle("Characters")
+                .navigationTitle(String(localized: "characters_title"))
                 .task {
                     await viewModel.loadFirstCharactersPage()
                 }

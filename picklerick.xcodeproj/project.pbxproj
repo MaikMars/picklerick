@@ -29,15 +29,38 @@
 		21FC28702E26A29200444881 /* picklerickUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = picklerickUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		21CF66A62E2D99F900836B78 /* Exceptions for "picklerickUITests" folder in "picklerick" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				picklerickUITests.swift,
+				picklerickUITestsLaunchTests.swift,
+			);
+			target = 21FC28562E26A29100444881 /* picklerick */;
+		};
+		21CF66A72E2D99F900836B78 /* Exceptions for "picklerickUITests" folder in "picklerickUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				picklerickUITests.swift,
+				picklerickUITestsLaunchTests.swift,
+			);
+			target = 21FC286F2E26A29200444881 /* picklerickUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		21CF66A32E2D99F900836B78 /* picklerickUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				21CF66A62E2D99F900836B78 /* Exceptions for "picklerickUITests" folder in "picklerick" target */,
+				21CF66A72E2D99F900836B78 /* Exceptions for "picklerickUITests" folder in "picklerickUITests" target */,
+			);
+			path = picklerickUITests;
+			sourceTree = "<group>";
+		};
 		21FC28592E26A29100444881 /* picklerick */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = picklerick;
-			sourceTree = "<group>";
-		};
-		21FC28732E26A29200444881 /* picklerickUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = picklerickUITests;
 			sourceTree = "<group>";
 		};
 		21FC29B72E26B41D00444881 /* picklerickTests */ = {
@@ -77,7 +100,7 @@
 			children = (
 				21FC28592E26A29100444881 /* picklerick */,
 				21FC29B72E26B41D00444881 /* picklerickTests */,
-				21FC28732E26A29200444881 /* picklerickUITests */,
+				21CF66A32E2D99F900836B78 /* picklerickUITests */,
 				21FC28582E26A29100444881 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -108,6 +131,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				21CF66A32E2D99F900836B78 /* picklerickUITests */,
 				21FC28592E26A29100444881 /* picklerick */,
 			);
 			name = picklerick;
@@ -153,9 +177,6 @@
 			dependencies = (
 				21FC28722E26A29200444881 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				21FC28732E26A29200444881 /* picklerickUITests */,
-			);
 			name = picklerickUITests;
 			packageProductDependencies = (
 			);
@@ -193,6 +214,7 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = 21FC284E2E26A29100444881;
 			minimizedProjectReferenceProxies = 1;
@@ -275,6 +297,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -330,6 +353,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -339,6 +363,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -387,6 +412,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
