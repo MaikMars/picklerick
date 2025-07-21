@@ -35,23 +35,7 @@ struct CharacterDetailsView: View {
     }
 
     private var characterImage: some View {
-        AsyncImage(url: URL(string: character.imageURL)) { phase in
-            if let image = phase.image {
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 250, height: 250)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-            } else if phase.error != nil {
-                Image(systemName: "xmark.octagon.fill")
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                    .foregroundColor(.red)
-            } else {
-                ProgressView()
-                    .frame(width: 250, height: 250)
-            }
-        }
+        AsyncCachedImage(url: URL(string: character.imageURL)!, width: 250, height: 250)
     }
 
     private var characterInfo: some View {
@@ -120,7 +104,7 @@ struct CharacterDetailsView: View {
                                 ForEach(section.episodes, id: \.id) { episode in
                                     HStack() {
                                         Text(
-                                            "#\(String(localized: "season_title")) \(episode.name)"
+                                            "#\(episode.episodeNumber) \(String(localized: "season_title")) \(episode.name)"
                                         ).font(.callout)
                                             .fontWeight(.thin)
                                             .padding(.horizontal)

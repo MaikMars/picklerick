@@ -49,38 +49,12 @@ struct CharactersGridView: View {
                             ) { character in
                                 NavigationLink(value: character) {
                                     VStack(spacing: 8) {
-                                        AsyncImage(
-                                            url: URL(string: character.imageURL)
-                                        ) { phase in
-                                            if let image = phase.image {
-                                                image
-                                                    .resizable()
-                                                    .aspectRatio(
-                                                        contentMode: .fill
-                                                    )
-                                                    .frame(
-                                                        width: 160,
-                                                        height: 160
-                                                    )
-                                                    .clipShape(
-                                                        RoundedRectangle(
-                                                            cornerRadius: 12
-                                                        )
-                                                    )
-                                            } else {
-                                                ProgressView()
-                                                    .frame(
-                                                        width: 160,
-                                                        height: 160
-                                                    )
-                                            }
-                                        }
+                                        AsyncCachedImage(url: URL(string: character.imageURL)!, width: 160, height: 160)
                                         Text(character.name)
                                             .font(.headline)
                                             .lineLimit(1)
                                             .padding(.horizontal)
                                     }
-                                    
                                     .onAppear {
                                         Task {
                                             await viewModel

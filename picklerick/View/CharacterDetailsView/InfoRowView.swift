@@ -15,7 +15,7 @@ struct InfoRowView: View {
         HStack {
             Text("\(label):")
                 .fontWeight(.semibold)
-            Text(value.capitalized)
+            Text(value.capitalized).lineLimit(1)
             Spacer()
         }
         .font(.body)
