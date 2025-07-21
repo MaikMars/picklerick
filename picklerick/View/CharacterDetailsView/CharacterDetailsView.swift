@@ -20,22 +20,37 @@ struct CharacterDetailsView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 16) {
-                characterImage
-                characterInfo
-                Divider()
-                episodesSection
+        ZStack {
+            ScrollView {
+                VStack(spacing: 16) {
+                    characterImage
+                    characterInfo
+                    Divider()
+                    episodesSection
+                }
+                .padding()
             }
-            .padding()
-        }
-        .task {
-            await viewModel.loadEpisodes()
+            .task {
+                await viewModel.loadEpisodes()
+            }
+            if let message = viewModel.toastMessage {
+                VStack {
+                      ToastView(message: message)
+                          .transition(.opacity)
+                          .padding(.top, 8)
+                      Spacer()
+                  }
+                  .animation(.easeInOut(duration: 0.3), value: viewModel.toastMessage)
+            }
         }
     }
 
     private var characterImage: some View {
-        AsyncCachedImage(url: URL(string: character.imageURL)!, width: 250, height: 250)
+        AsyncCachedImage(
+            url: URL(string: character.imageURL)!,
+            width: 250,
+            height: 250
+        )
     }
 
     private var characterInfo: some View {

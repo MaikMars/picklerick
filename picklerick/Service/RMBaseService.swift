@@ -19,7 +19,6 @@ class RMBaseService {
 
     internal func fetchData(from url: URL, cacheKey: String? = nil) async throws -> Data {
         if let key = cacheKey, let cachedData = dataCache[key] {
-            print("✅ Loaded from cache: \(key)")
             return cachedData
         }
         do {

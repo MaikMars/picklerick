@@ -26,7 +26,6 @@ class EpisodeServiceImpl: RMBaseService, EpisodeService {
         let key = episodes.map { String($0) }.joined(separator: ",")
         
         if let cached = cache[key] {
-            print("✅ Episodes from cache: \(key)")
             return cached
         }
         

@@ -11,16 +11,6 @@
         }
       }
     },
-    "%@ %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ %2$@"
-          }
-        }
-      }
-    },
     "%@ %lld" : {
       "localizations" : {
         "en" : {
@@ -54,6 +44,23 @@
         }
       }
     },
+    "decoding_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unexpected error reading data. Please try again."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha ocurrido un error al procesar los datos. Intenta de nuevo."
+          }
+        }
+      }
+    },
     "episodes_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -70,6 +77,12 @@
           }
         }
       }
+    },
+    "error_decoding" : {
+
+    },
+    "error_invalid_url" : {
+
     },
     "filters_title" : {
       "extractionState" : "manual",
@@ -108,6 +121,23 @@
         }
       }
     },
+    "invalid_url" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid URL. Please try again later."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL inválida. Por favor, inténtalo de nuevo más tarde."
+          }
+        }
+      }
+    },
     "origin_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -124,12 +154,6 @@
           }
         }
       }
-    },
-    "Search by :" : {
-
-    },
-    "Search Type" : {
-
     },
     "search_placeholder" : {
       "extractionState" : "manual",

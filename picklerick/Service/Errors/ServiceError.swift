@@ -17,9 +17,11 @@ enum ServiceError: Error, Equatable {
         case (.invalidURL, .invalidURL), (.decodingError, .decodingError):
             return true
         case (.networkError, .networkError):
-            return true // o false según si quieres distinguir errores concretos
+            return true
         default:
             return false
         }
     }
 }
+
+

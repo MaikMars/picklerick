@@ -32,7 +32,6 @@ class CharacterServiceImpl: RMBaseService, CharacterService {
         let cacheKey = cacheKey(page: page, query: query, filters: filters)
             
         if let cached = cache[cacheKey] {
-            print("✅ Characters from cache: \(cacheKey)")
             return cached
         }
         let data = try await fetchData(from: url, cacheKey: cacheKey)

@@ -12,7 +12,7 @@ protocol CharacterDetailsViewModel: ObservableObject {
     func loadEpisodes() async throws
 }
 
-class CharacterDetailsViewModelImpl: CharacterDetailsViewModel {
+class CharacterDetailsViewModelImpl: BaseViewModel, CharacterDetailsViewModel {
 
     
     init(
@@ -21,14 +21,14 @@ class CharacterDetailsViewModelImpl: CharacterDetailsViewModel {
         character: Character
     ) {
         self.episodeService = episodeService
-        self.isLoading = isLoading
         self.character = character
+        super.init(isLoading: isLoading)
     }
     
     private let episodeService: EpisodeService
     private let character: Character
     
-    @Published var isLoading = false
+
     @Published var seasonSection: [SeasonSection] = []
     
     func loadEpisodes() async {
@@ -41,7 +41,7 @@ class CharacterDetailsViewModelImpl: CharacterDetailsViewModel {
             )
             seasonSection = groupEpisodesBySeason(episodes)
         } catch {
-            print("error loading episodes for character")
+            handleError(error)
         }
     }
     

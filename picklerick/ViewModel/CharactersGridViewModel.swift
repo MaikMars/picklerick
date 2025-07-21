@@ -13,16 +13,14 @@ protocol CharactersGridViewModel: ObservableObject {
     func loadMoreIfNeeded(after character: Character) async
 }
 
-class CharactersGridViewModelImpl: CharactersGridViewModel {
+class CharactersGridViewModelImpl: BaseViewModel, CharactersGridViewModel {
     
     private let characterService: CharacterService
     private var currentPage = 1
     private var hasMorePages = true
     private var cancellables = Set<AnyCancellable>()
     
-    @Published private(set) var isLoading = false
     @Published var characters: [Character] = []
-    @Published var errorMessage: String? = nil
     @Published var query: String = ""
     
     @Published var searchType: String = "name" {
@@ -38,11 +36,10 @@ class CharactersGridViewModelImpl: CharactersGridViewModel {
         characters: [Character] = []
     ) {
         self.characterService = characterService
-        self.isLoading = isLoading
         self.characters = characters
+        super.init(isLoading: isLoading)
         observeQueryChanges()
     }
-    
     
     func loadFirstCharactersPage() async {
         resetState()
@@ -58,7 +55,6 @@ class CharactersGridViewModelImpl: CharactersGridViewModel {
         currentPage = 1
         hasMorePages = true
         characters = []
-        errorMessage = nil
     }
     
     private func observeQueryChanges() {
@@ -92,7 +88,7 @@ class CharactersGridViewModelImpl: CharactersGridViewModel {
                 currentPage += 1
             }
         } catch {
-            errorMessage = "Error cargando personajes: \(error.localizedDescription)"
+            handleError(error)
             hasMorePages = false
         }
     }

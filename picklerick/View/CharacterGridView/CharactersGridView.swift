@@ -10,6 +10,7 @@ struct CharactersGridView: View {
     @StateObject private var viewModel: CharactersGridViewModelImpl
     @State private var showFilters = false
     
+    
     init() {
         let vm = CharactersGridViewModelImpl()
         _viewModel = StateObject(wrappedValue: vm)
@@ -25,8 +26,7 @@ struct CharactersGridView: View {
             NavigationStack {
                 VStack {
                     HStack {
-                        TextField(
-                            "\( String(localized: "search_placeholder")) \(viewModel.searchType)",
+                        TextField(String(localized: "search_placeholder"),
                             text: $viewModel.query
                         )
                         .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -49,7 +49,13 @@ struct CharactersGridView: View {
                             ) { character in
                                 NavigationLink(value: character) {
                                     VStack(spacing: 8) {
-                                        AsyncCachedImage(url: URL(string: character.imageURL)!, width: 160, height: 160)
+                                        AsyncCachedImage(
+                                            url: URL(
+                                                string: character.imageURL
+                                            )!,
+                                            width: 160,
+                                            height: 160
+                                        )
                                         Text(character.name)
                                             .font(.headline)
                                             .lineLimit(1)
@@ -95,7 +101,7 @@ struct CharactersGridView: View {
                     withAnimation {
                         showFilters = false
                     }
-                }, isPresented: $showFilters, seachType: $viewModel.searchType, filters: $viewModel.appliedFilters)
+                }, isPresented: $showFilters, filters: $viewModel.appliedFilters)
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(.regularMaterial)
@@ -103,6 +109,15 @@ struct CharactersGridView: View {
                 .shadow(radius: 10)
                 .padding(.horizontal, 20)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+            if let message = viewModel.toastMessage {
+                VStack {
+                    ToastView(message: message)
+                        .transition(.opacity)
+                        .padding(.top, 8)
+                    Spacer()
+                }
+                .animation(.easeInOut(duration: 0.3), value: viewModel.toastMessage)
             }
         }
     }
