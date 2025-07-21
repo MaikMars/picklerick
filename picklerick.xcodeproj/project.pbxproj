@@ -30,19 +30,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		21CF68D62E2E8ABD00836B78 /* Exceptions for "picklerickUITests" folder in "picklerick" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				CharactersGridViewUITests.swift,
-			);
-			target = 21FC28562E26A29100444881 /* picklerick */;
-		};
-		21CF68D72E2E8ABD00836B78 /* Exceptions for "picklerickUITests" folder in "picklerickUITests" target */ = {
+		21CF69A72E2EAD4100836B78 /* Exceptions for "picklerickUITests" folder in "picklerickUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CharactersGridViewUITests.swift,
 			);
 			target = 21FC286F2E26A29200444881 /* picklerickUITests */;
+		};
+		21CF69AF2E2EAE7B00836B78 /* Exceptions for "picklerickUITests" folder in "picklerick" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CharactersGridViewUITests.swift,
+			);
+			target = 21FC28562E26A29100444881 /* picklerick */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -50,8 +50,8 @@
 		21CF66A32E2D99F900836B78 /* picklerickUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				21CF68D62E2E8ABD00836B78 /* Exceptions for "picklerickUITests" folder in "picklerick" target */,
-				21CF68D72E2E8ABD00836B78 /* Exceptions for "picklerickUITests" folder in "picklerickUITests" target */,
+				21CF69AF2E2EAE7B00836B78 /* Exceptions for "picklerickUITests" folder in "picklerick" target */,
+				21CF69A72E2EAD4100836B78 /* Exceptions for "picklerickUITests" folder in "picklerickUITests" target */,
 			);
 			path = picklerickUITests;
 			sourceTree = "<group>";
@@ -425,6 +425,7 @@
 				DEVELOPMENT_TEAM = L8B8V73FRL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = PickleRick;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -453,6 +454,7 @@
 				DEVELOPMENT_TEAM = L8B8V73FRL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = PickleRick;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
