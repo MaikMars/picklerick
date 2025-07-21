@@ -11,7 +11,6 @@ enum ServiceError: Error, Equatable {
     case invalidURL
     case decodingError
     case networkError(Error)
-    case emptyData
     
     static func == (lhs: ServiceError, rhs: ServiceError) -> Bool {
         switch (lhs, rhs) {
