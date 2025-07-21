@@ -1,38 +1,40 @@
-📱 Rick & Morty Explorer
-A SwiftUI application that displays Rick & Morty characters using Rick and Morty API. Built following clean architecture principles, async/await, Combine, with unit tests, caching, and a strong focus on user experience.
+📱 Rick & Morty iOS App
+A clean and modern iOS app built with SwiftUI, Async/Await, and following Clean Architecture and SOLID principles. The app consumes the Rick and Morty API to display a list of characters with filtering, search, and detailed episode information organized by seasons.
 
-🚀 Features
-✅ Browse all characters in a responsive grid.
-✅ Search characters by name, species, status, and gender.
-✅ Filter results in a sleek overlay.
-✅ Character detail view with image and episode breakdown.
-✅ Episodes grouped by season with collapsible sections.
-✅ Image caching to optimize performance.
-✅ Pagination with infinite scroll.
-✅ Toast notifications for errors.
-✅ Fully localized (English 🇬🇧 & Spanish 🇪🇸).
-✅ Modular architecture (Service, ViewModel, View, DTO, Model).
-✅ Unit tests for services and view models.
-✅ Integration tests with live API.
+
+🏗️ Architecture
+The project follows a MVVM architecture with a clear separation of concerns and clean layers:
 
 
 📂 Project Structure
-├── Services/
-│   ├── CharacterService
-│   └── EpisodeService
-├── ViewModels/
-├── Views/
-├── Models/
-├── DTOs/
-├── Utils/ (Caching, Extensions, Toasts, Localization)
-├── Tests/
-│   ├── Unit/
-│   └── Integration/
-└── Resources/ (Localizations, AppIcon)
 
-🛠️ Tech Stack
-Swift 5.9
-SwiftUI + Async/Await
-Combine (for debouncing)
-XCTest (Unit & Integration Tests)
-Localizations (EN & ES)
+📁 Models - Models	Domain models (Character, Episode), DTOs, and mapping logic.
+📁 Services - Services	Networking layer (CharacterService, EpisodeService, caching).
+📁 ViewModels - ViewModels	View-specific logic, pagination, filtering, data fetching.
+📁 Views - Views	SwiftUI views with grid, search, filters, and details.
+📁 Utils (Cache, Helpers)
+
+
+✅ MVVM + Clean Architecture structure
+✅ SOLID principles applied throughout the codebase
+✅ Protocols for abstraction and testing
+✅ Modular design for easy maintenance and scaling
+
+
+⚙️ Tech Stack
+✅ SwiftUI (UI framework)
+✅ Async/Await for async networking
+✅ URLSession (no third-party dependencies)
+✅ In-memory cache for data and images
+✅ Localization (English 🇺🇸 and Spanish 🇪🇸)
+✅ Dark/Light Mode support
+✅ Unit Testing with XCTest
+
+
+🎨 Features
+🟢 Responsive grid layout with pagination.
+🟢 Search and filter functionality.
+🟢 Character details view with episodes grouped by seasons.
+🟢 Localized in English and Spanish.
+🟢 Dark Mode compatible UI.
+🟢 Clean code with architectural best practices.
