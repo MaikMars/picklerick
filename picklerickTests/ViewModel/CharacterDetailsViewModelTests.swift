@@ -35,7 +35,7 @@ final class CharacterDetailsViewModelTests: XCTestCase {
         await viewModel.loadEpisodes()
         
         //Then
-        let seasonSection = viewModel.seasonSection
+        let seasonSection = viewModel.seasonSections
         XCTAssertEqual(seasonSection.count, 1)
     }
     

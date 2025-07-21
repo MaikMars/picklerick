@@ -96,13 +96,13 @@ struct CharacterDetailsView: View {
                 .font(.headline)
                 .padding(.horizontal)
 
-            if viewModel.seasonSection.isEmpty {
+            if viewModel.seasonSections.isEmpty {
                 Spacer()
                 ProgressView()
                     .frame(maxWidth: .infinity)
                     .padding()
             } else {
-                ForEach(viewModel.seasonSection) { section in
+                ForEach(viewModel.seasonSections) { section in
                     DisclosureGroup(
                         isExpanded: Binding(
                             get: { expandedSeasons.contains(section.season) },

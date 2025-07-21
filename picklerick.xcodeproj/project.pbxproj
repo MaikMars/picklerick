@@ -33,16 +33,14 @@
 		21CF66A62E2D99F900836B78 /* Exceptions for "picklerickUITests" folder in "picklerick" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				picklerickUITests.swift,
-				picklerickUITestsLaunchTests.swift,
+				CharactersGridViewUITests.swift,
 			);
 			target = 21FC28562E26A29100444881 /* picklerick */;
 		};
 		21CF66A72E2D99F900836B78 /* Exceptions for "picklerickUITests" folder in "picklerickUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				picklerickUITests.swift,
-				picklerickUITestsLaunchTests.swift,
+				CharactersGridViewUITests.swift,
 			);
 			target = 21FC286F2E26A29200444881 /* picklerickUITests */;
 		};

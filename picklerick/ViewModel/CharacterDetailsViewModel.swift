@@ -29,7 +29,7 @@ class CharacterDetailsViewModelImpl: BaseViewModel, CharacterDetailsViewModel {
     private let character: Character
     
 
-    @Published var seasonSection: [SeasonSection] = []
+    @Published var seasonSections: [SeasonSection] = []
     
     func loadEpisodes() async {
         guard !isLoading else { return }
@@ -39,7 +39,7 @@ class CharacterDetailsViewModelImpl: BaseViewModel, CharacterDetailsViewModel {
             let episodes = try await episodeService.fetchEpisodes(
                 episodes: character.episodes
             )
-            seasonSection = groupEpisodesBySeason(episodes)
+            seasonSections = groupEpisodesBySeason(episodes)
         } catch {
             handleError(error)
         }

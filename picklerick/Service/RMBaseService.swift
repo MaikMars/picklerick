@@ -39,6 +39,7 @@ class RMBaseService {
 enum RMServiceError: Error, Equatable {
     case invalidURL
     case decodingError
+    case emptyData
     case networkError(Error)
     
     static func == (lhs: RMServiceError, rhs: RMServiceError) -> Bool {

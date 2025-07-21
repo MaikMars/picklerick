@@ -36,17 +36,24 @@ class CharacterServiceImpl: RMBaseService, CharacterService {
         }
         let data = try await fetchData(from: url, cacheKey: cacheKey)
 
-        do {
-            let response = try JSONDecoder().decode(
-                CharacterResponseDTO.self,
-                from: data
-            )
+        
+        if let response = try? JSONDecoder().decode(
+            CharacterResponseDTO.self,
+            from: data
+        ) {
             let characters = response.results.map { $0.toDomain() }
             cache[cacheKey] = characters
             return characters
-        } catch {
-            throw RMServiceError.decodingError
         }
+        
+        if let _ =  try? JSONDecoder().decode(
+            [String: String].self,
+            from: data
+        ) {
+            return []
+        }
+        throw RMServiceError.decodingError
+    
     }
     
     

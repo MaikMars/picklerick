@@ -25,9 +25,9 @@ class BaseViewModel: ObservableObject {
     
     internal func handleError(_ error: Error) {
         if let serviceError = error as? ServiceError {
-            toastMessage = serviceError.localizedDescription
+            showToast(serviceError.localizedDescription)
         } else {
-            toastMessage = error.localizedDescription
+            showToast(error.localizedDescription)
         }
     }
 }

@@ -27,7 +27,7 @@ struct CharactersGridView: View {
                 VStack {
                     HStack {
                         TextField(String(localized: "search_placeholder"),
-                            text: $viewModel.query
+                                  text: $viewModel.query
                         )
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         Button {
@@ -40,46 +40,12 @@ struct CharactersGridView: View {
                                 .padding(.leading, 8)
                         }
                     }.padding()
-                    
-                    ScrollView(.vertical) {
-                        LazyVGrid(columns: columns, spacing: 12) {
-                            ForEach(
-                                viewModel.characters,
-                                id: \.id
-                            ) { character in
-                                NavigationLink(value: character) {
-                                    VStack(spacing: 8) {
-                                        AsyncCachedImage(
-                                            url: URL(
-                                                string: character.imageURL
-                                            )!,
-                                            width: 160,
-                                            height: 160
-                                        )
-                                        Text(character.name)
-                                            .font(.headline)
-                                            .lineLimit(1)
-                                            .padding(.horizontal)
-                                    }
-                                    .onAppear {
-                                        Task {
-                                            await viewModel
-                                                .loadMoreIfNeeded(
-                                                    after: character
-                                                )
-                                        }
-                                    }
-                                }
-                                .buttonStyle(.plain)
-                            }
-                            
-                            if viewModel.isLoading {
-                                ProgressView()
-                                    .frame(maxWidth: .infinity)
-                                    .padding()
-                            }
-                        }
-                        .padding(.horizontal)
+                    if viewModel.characters.isEmpty {
+                        Spacer().frame(height: 60)
+                        emptyCharactersView
+                        Spacer()
+                    } else {
+                       charactersGrid
                     }
                 }
                 .navigationDestination(for: Character.self) { character in
@@ -110,6 +76,7 @@ struct CharactersGridView: View {
                 .padding(.horizontal, 20)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
+            
             if let message = viewModel.toastMessage {
                 VStack {
                     ToastView(message: message)
@@ -117,11 +84,84 @@ struct CharactersGridView: View {
                         .padding(.top, 8)
                     Spacer()
                 }
-                .animation(.easeInOut(duration: 0.3), value: viewModel.toastMessage)
+                .animation(
+                    .easeInOut(duration: 0.3),
+                    value: viewModel.toastMessage
+                )
             }
         }
     }
+    
+    private var charactersGrid: some View {
+        ScrollView(.vertical) {
+            LazyVGrid(columns: columns, spacing: 12) {
+                ForEach(
+                    viewModel.characters,
+                    id: \.id
+                ) { character in
+                    NavigationLink(value: character) {
+                        VStack(spacing: 8) {
+                            AsyncCachedImage(
+                                url: URL(
+                                    string: character.imageURL
+                                )!,
+                                width: 160,
+                                height: 160
+                            )
+                            Text(character.name)
+                                .font(.headline)
+                                .lineLimit(1)
+                                .padding(.horizontal)
+                        }
+                        .onAppear {
+                            Task {
+                                await viewModel
+                                    .loadMoreIfNeeded(
+                                        after: character
+                                    )
+                            }
+                        }
+                    }
+                    .buttonStyle(.plain)
+                }
+                
+                if viewModel.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+    
+    private var emptyCharactersView: some View {
+    
+        VStack(spacing: 16) {
+            Image(systemName: "person.crop.circle.badge.exclamationmark")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 100, height: 100)
+                .foregroundColor(.secondary)
+
+            Text(String(localized:"no_character_found_title"))
+                .font(.headline)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.primary)
+                .padding(.horizontal)
+
+            Text(String(localized:"no_character_found_subtitle"))
+                .font(.subheadline)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.secondary)
+                .padding(.horizontal)
+        }
+        .padding()
+    }
+    
 }
+
+
 
 #Preview {
     CharactersGridView()

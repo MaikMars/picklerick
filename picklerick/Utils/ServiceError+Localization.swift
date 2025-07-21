@@ -16,6 +16,8 @@ extension ServiceError {
             return NSLocalizedString("error_decoding", comment: "")
         case .networkError(let error):
             return error.localizedDescription
+        case .emptyData:
+            return NSLocalizedString("empty_data", comment: "")
         }
     }
 }

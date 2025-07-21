@@ -28,7 +28,7 @@ final class RMBaseServiceTests: XCTestCase {
         super.tearDown()
     }
     
-    func test_fetchData_returnsCachedData_whenCacheHit() async throws {
+    func testFetchData_returnsCachedData_whenCacheHit() async throws {
         let url = URL(string: "https://test.com")!
         let cacheKey = "cached_key"
         let cachedData = "cached".data(using: .utf8)!
@@ -39,7 +39,7 @@ final class RMBaseServiceTests: XCTestCase {
         XCTAssertEqual(data, cachedData, "Should return cached data without network call")
     }
     
-    func test_fetchData_fetchesFromNetwork_whenCacheMiss() async throws {
+    func testFetchData_fetchesFromNetwork_whenCacheMiss() async throws {
         let expectedData = "network response".data(using: .utf8)!
         MockURLProtocol.mockResponseData = expectedData
         
@@ -50,7 +50,7 @@ final class RMBaseServiceTests: XCTestCase {
         XCTAssertEqual(service.dataCache["new_key"], expectedData, "Should store in cache after network fetch")
     }
     
-    func test_fetchData_throwsNetworkError_whenRequestFails() async {
+    func testFetchData_throwsNetworkError_whenRequestFails() async {
         MockURLProtocol.mockError = URLError(.badServerResponse)
         let url = URL(string: "https://test.com")!
         
